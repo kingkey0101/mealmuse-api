@@ -6,6 +6,13 @@
     "ensure-indexes": "ts-node scripts/ensureIndexes.ts",
     "seed": "ts-node scripts/seedRecipes.ts",
     "test-fetch": "ts-node scripts/testFetch.ts"
-    
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "mongodb": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^4.0.6",
+    "@types/node": "^25.0.8"
   }
 }
