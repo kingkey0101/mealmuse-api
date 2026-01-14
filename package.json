@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "name": "mealmuse-api",
+  "version": "0.1.0",
+  "scripts": {
+    "ensure-indexes": "ts-node scripts/ensureIndexes.ts",
+    "seed": "ts-node scripts/seedRecipes.ts",
+    "test-fetch": "ts-node scripts/testFetch.ts"
+    
+  }
+}
