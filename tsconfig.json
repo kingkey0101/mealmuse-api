@@ -7,11 +7,14 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-       "module": "esnext",
+         "target": "ES2020",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "verbatimModuleSyntax": true,
-    "target": "esnext",
-    "types": [],
+    "outDir": "dist",
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -24,7 +27,7 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    // "exactOptionalPropertyTypes": true,
 
     // Style Options
     // "noImplicitReturns": true,
@@ -35,11 +38,9 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
-    "strict": true,
     "jsx": "react-jsx",
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
   }
 }
