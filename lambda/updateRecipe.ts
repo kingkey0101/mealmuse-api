@@ -2,7 +2,9 @@ import { updateRecipe } from "../handlers/recipes";
 
 export const handler = async (event: any) => {
     try {
+        console.log('Raw event:', JSON.stringify(event, null, 2));
         const id = event.pathParameters?.id;
+        console.log('ID from pathParameters:', id);
 
         if (!id) {
             return {
@@ -12,6 +14,7 @@ export const handler = async (event: any) => {
             };
         }
         if (!event.body) {
+            console.log('No body recieved');
             return {
                 statusCode: 400,
                 headers: { 'Content-Type': 'applications/json' },
@@ -19,8 +22,13 @@ export const handler = async (event: any) => {
             };
         }
 
+        console.log('Raw body:', event.body);
+
         const updates = JSON.parse(event.body);
+        console.log('Parsed updates:', updates);
+
         const result = await updateRecipe(id, updates);
+        console.log('Mongo update result:', result);
 
         if (result.modifiedCount === 0) {
             return {
@@ -31,7 +39,7 @@ export const handler = async (event: any) => {
         }
         return {
             statusCode: 200,
-            Headers: { 'Content-Type': 'applications/json' },
+            headers: { 'Content-Type': 'applications/json' },
             body: JSON.stringify({ message: 'Recipe updated successfully' })
         };
     } catch (err) {
@@ -41,5 +49,7 @@ export const handler = async (event: any) => {
             headers: { 'Content-Type': 'applications/json' },
             body: JSON.stringify({ error: 'Internal server error' })
         }
+
     }
+
 }
