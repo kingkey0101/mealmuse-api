@@ -1,8 +1,18 @@
+import { headers } from 'next/headers';
 import { listRecipes } from '../handlers/recipes';
 
 export const handler = async (event: any, context: any) => {
     try {
-        const recipes = await listRecipes('');
+        const userId = event.requestContext?.authorizer?.userId;
+
+        if (!userId) {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ error: 'Unauthorized: userId missing' })
+            }
+        }
+        const recipes = await listRecipes(userId);
         return {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },

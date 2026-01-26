@@ -11,7 +11,15 @@ export const handler = async (event: any) => {
             };
         }
         const data = JSON.parse(event.body);
-        const insertedId = await createRecipe(data);
+        const userId = event.requestContext?.authorizer?.userId;
+        if (!userId) {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ error: 'Unauthorized: userId missing' })
+            };
+        }
+        const insertedId = await createRecipe({ ...data, userId });
 
         return {
             statusCode: 201,
