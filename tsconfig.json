@@ -43,5 +43,6 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-  }
+  },
+  "include": ["lambda", "utils", "handlers"]
 }

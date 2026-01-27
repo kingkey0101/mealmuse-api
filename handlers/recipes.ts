@@ -7,7 +7,7 @@ export async function listRecipes(params: string) {
     return db.collection('recipes').find({
         $or: [
             { isSeeded: true },
-            { userId: new ObjectId(params) }
+            { userId: params }
         ]
     }).toArray();
 }
@@ -23,7 +23,7 @@ export async function createRecipe(data: any) {
     const db = getDb();
     const result = (await db).collection('recipes').insertOne({
         ...data,
-        userId: new ObjectId(data.userId),
+        userId: String(data.userId),
         created_at: new Date()
     })
     return (await result).insertedId
@@ -42,9 +42,9 @@ export async function updateRecipe(id: string, updates: any) {
 //Delete - delete a recipe by ID
 export async function deleteRecipe(id: string) {
     const db = getDb();
-    const recipe = await (await db).collection('recipes').findOne({_id: new ObjectId(id)});
+    const recipe = await (await db).collection('recipes').findOne({ _id: new ObjectId(id) });
 
-    if(!recipe || recipe.isSeeded){
+    if (!recipe || recipe.isSeeded) {
         throw new Error('Cannot Delete MeanMuse recipe');
     }
     return (await db).collection('recipes').deleteOne({ _id: new ObjectId(id) })

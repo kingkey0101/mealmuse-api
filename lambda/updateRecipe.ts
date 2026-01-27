@@ -1,4 +1,4 @@
-import { verifyJwt } from "../utils/verifyJwt";
+import { verifyJwtFromHeader } from "../utils/verifyJwt";
 import { updateRecipe } from "../handlers/recipes";
 import { getDb } from "../utils/mongo";
 import { ObjectId } from "mongodb";
@@ -9,23 +9,35 @@ export const handler = async (event: any) => {
             event.headers?.Authorization ||
             event.headers?.AUTHORIZATION;
 
-        const decoded = verifyJwt(auth);
-        const userId = decoded.id;
+        const decoded = verifyJwtFromHeader(auth);
 
-        const id = event.pathParameters?.id;
-        if (!id) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: "Recipe ID is required" })
-            };
-        }
+if (!decoded || typeof decoded === 'string' || !('id' in decoded)) {
+  return {
+    statusCode: 401,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+    },
+    body: JSON.stringify({ error: "Unauthorized" })
+  };
+}
+
+const userId = String((decoded as any).id);
 
         const db = await getDb();
-        const recipe = await db.collection("recipes").findOne({ _id: new ObjectId(id) });
+        const recipeId = event.pathParameters?.id; // Assuming the ID is passed in the path parameters
+        const recipe = await db.collection("recipes").findOne({ _id: new ObjectId(recipeId) });
 
         if (!recipe) {
             return {
                 statusCode: 404,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+                },
+
                 body: JSON.stringify({ error: "Recipe not found" })
             };
         }
@@ -33,6 +45,12 @@ export const handler = async (event: any) => {
         if (recipe.isSeeded) {
             return {
                 statusCode: 403,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+                },
+
                 body: JSON.stringify({ error: "Seeded recipes cannot be modified" })
             };
         }
@@ -40,15 +58,27 @@ export const handler = async (event: any) => {
         if (recipe.userId.toString() !== userId) {
             return {
                 statusCode: 403,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+                },
+
                 body: JSON.stringify({ error: "You do not own this recipe" })
             };
         }
 
         const updates = JSON.parse(event.body);
-        await updateRecipe(id, updates);
+        await updateRecipe(recipeId, updates);
 
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+            },
+
             body: JSON.stringify({ message: "Recipe updated successfully" })
         };
 
@@ -56,6 +86,12 @@ export const handler = async (event: any) => {
         console.error("Error updating recipe:", err);
         return {
             statusCode: 401,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+            },
+
             body: JSON.stringify({ error: "Unauthorized" })
         };
     }

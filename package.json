@@ -9,6 +9,7 @@
     "test-fetch": "npm run build && node dist/scripts/testFetch.js"
   },
   "dependencies": {
+    "aws": "^0.0.3-2",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.0.0"
