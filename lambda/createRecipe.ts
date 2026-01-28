@@ -8,7 +8,7 @@ export const handler = async (event: any) => {
             event.headers?.AUTHORIZATION;
 
         const decoded = verifyJwtFromHeader(auth);
-        if (!decoded || typeof decoded === 'string' || !('id' in decoded)) {
+        if (!decoded || typeof decoded === 'string' || !('userId' in decoded)) {
             return {
                 statusCode: 401,
                 headers: {
@@ -16,13 +16,11 @@ export const handler = async (event: any) => {
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
-                body: JSON.stringify({ error: 'Unauthorized' })
+                body: JSON.stringify({ error: 'Unauthorized: Invalid token' })
             };
         }
-        const userId = String((decoded as any).id);
-        const data = JSON.parse(event.body);
-        // const userId = event.requestContext?.authorizer?.userId;
-        const insertedId = await createRecipe({ ...data, userId });
+
+        const userId = String((decoded as any).userId);
 
         if (!event.body) {
             return {
@@ -32,23 +30,12 @@ export const handler = async (event: any) => {
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
-
                 body: JSON.stringify({ error: 'Request body is required' })
-
             };
         }
-        if (!userId) {
-            return {
-                statusCode: 401,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*",
-                    "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
-                },
 
-                body: JSON.stringify({ error: 'Unauthorized: userId missing' })
-            };
-        }
+        const data = JSON.parse(event.body);
+        const insertedId = await createRecipe({ ...data, userId });
 
         return {
             statusCode: 201,
@@ -57,20 +44,18 @@ export const handler = async (event: any) => {
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             },
-
             body: JSON.stringify({ id: insertedId })
         };
     } catch (err) {
-        console.error("JWT verification failed:", err);
+        console.error("Error in createRecipe handler:", err);
         return {
-            statusCode: 400,
+            statusCode: 500,
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             },
-
-            body: JSON.stringify({ error: 'Unauthorized' })
+            body: JSON.stringify({ error: 'Internal server error' })
         }
     }
 }

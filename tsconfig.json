@@ -44,5 +44,5 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
   },
-  "include": ["lambda", "utils", "handlers"]
+  "include": ["lambda", "utils", "handlers", "scripts"]
 }

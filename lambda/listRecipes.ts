@@ -9,7 +9,7 @@ export const handler = async (event: any, context: any) => {
             event.headers?.AUTHORIZATION;
 
         const decoded = verifyJwtFromHeader(auth);
-        const userId = typeof decoded === 'object' && decoded !== null ? decoded.id : null;
+        const userId = typeof decoded === 'object' && decoded !== null ? decoded.userId : null;
 
         if (!userId) {
             return {

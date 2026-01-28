@@ -11,7 +11,7 @@ export const handler = async (event: any) => {
 
         const decoded = verifyJwtFromHeader(auth);
 
-if (!decoded || typeof decoded === 'string' || !('id' in decoded)) {
+if (!decoded || typeof decoded === 'string' || !('userId' in decoded)) {
   return {
     statusCode: 401,
     headers: {
@@ -23,7 +23,7 @@ if (!decoded || typeof decoded === 'string' || !('id' in decoded)) {
   };
 }
 
-const userId = String((decoded as any).id);
+const userId = String((decoded as any).userId);
 
         const db = await getDb();
         const recipeId = event.pathParameters?.id; // Assuming the ID is passed in the path parameters

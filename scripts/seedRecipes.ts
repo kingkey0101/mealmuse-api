@@ -13,7 +13,9 @@ async function seed() {
         ingredients: ["pasta", "olive oil", "garlic"],
         skill: 'beginner',
         steps: ['Bring water to a boil', 'Add the pasta', 'Cook 10-12 minutes based on package instructions', 'Drain pasta', 'Toss in olive oil', 'Add garlic'],
-        equipment: ['Large pot', 'Strainer', 'tongs'], created_at: new Date(),
+        equipment: ['Large pot', 'Strainer', 'tongs'],
+        isSeeded: true,
+        created_at: new Date(),
       },
       {
         title: "Chicken Stir Fry",
@@ -22,6 +24,7 @@ async function seed() {
         skill: 'intermediate',
         steps: ['Slice chicken and vetetables', 'Heat wok over high heat', 'Stir fry chicken until browned', 'add rice', 'Add vegetables and aromatics', 'Add soy sauce and cook until reduced by half'],
         equipment: ['Wok', 'Cutting board', 'Chef knif'],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -31,6 +34,7 @@ async function seed() {
         skill: 'beginner',
         steps: ['Brown ground beef in a skillet', 'Add spices and water', 'Simmer until thickened', 'Warm tortillas', 'Assemble tacos'],
         equipment: ['Skillet', 'Spoon'],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -46,6 +50,7 @@ async function seed() {
           "Serve over pasta or rice"
         ],
         equipment: ["skillet", "zester", "chef knife"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -61,6 +66,7 @@ async function seed() {
           "Simmer until vegetables are tender"
         ],
         equipment: ["saucepan", "wooden spoon"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -76,6 +82,7 @@ async function seed() {
           "Fold and serve"
         ],
         equipment: ["nonstick pan", "whisk", "spatula"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -90,6 +97,7 @@ async function seed() {
           "Top with soy sauce and nori"
         ],
         equipment: ["rice cooker", "chef knife"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -104,6 +112,7 @@ async function seed() {
           "Serve with rice"
         ],
         equipment: ["wok", "mixing bowl", "chef knife"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -118,6 +127,7 @@ async function seed() {
           "Dress with olive oil"
         ],
         equipment: ["mixing bowl", "chef knife"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -132,6 +142,7 @@ async function seed() {
           "Cook until internal temp reaches 165°F"
         ],
         equipment: ["grill", "tongs"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -146,6 +157,7 @@ async function seed() {
           "Add sprouts and peanuts"
         ],
         equipment: ["wok", "spatula"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -160,6 +172,7 @@ async function seed() {
           "Drizzle tahini"
         ],
         equipment: ["skillet", "chef knife"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -174,6 +187,7 @@ async function seed() {
           "Serve with rice"
         ],
         equipment: ["skillet", "mixing bowl"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -189,6 +203,7 @@ async function seed() {
           "Cook until eggs set"
         ],
         equipment: ["skillet", "wooden spoon"],
+        isSeeded: true,
         created_at: new Date()
       },
       {
@@ -203,6 +218,7 @@ async function seed() {
           "Top with egg and scallions"
         ],
         equipment: ["pot", "ladle"],
+        isSeeded: true,
         created_at: new Date()
       }
 

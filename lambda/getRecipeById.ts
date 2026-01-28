@@ -4,7 +4,7 @@ export const handler = async (event: any) => {
     try {
 
 
-        const id = event.pathParameters?.id;
+        const id = event.pathParameters?.id || event.pathParameters?.recipeId;
         if (!id) {
             return {
                 statusCode: 400,

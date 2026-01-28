@@ -116,14 +116,14 @@ export const handler = async (event: any) => {
             event.headers?.AUTHORIZATION;
 
         const decoded = verifyJwtFromHeader(auth);
-        if (!decoded || typeof decoded === 'string' || !('id' in decoded)) {
+        if (!decoded || typeof decoded === 'string' || !('userId' in decoded)) {
             return {
                 statusCode: 401,
                 headers: CORS_HEADERS,
                 body: JSON.stringify({ error: 'Unauthorized: userId missing' })
             };
         }
-        const userId = String((decoded as any).id);
+        const userId = String((decoded as any).userId);
 
         // 2) Validate path parameter
         const recipeId = event.pathParameters?.id;
