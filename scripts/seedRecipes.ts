@@ -12,6 +12,8 @@ async function seed() {
         cuisine: ['Italian'],
         ingredients: ["pasta", "olive oil", "garlic"],
         skill: 'beginner',
+        cookingTime: 15,
+        dietaryPreferences: ["vegetarian", "dairy-free"],
         steps: ['Bring water to a boil', 'Add the pasta', 'Cook 10-12 minutes based on package instructions', 'Drain pasta', 'Toss in olive oil', 'Add garlic'],
         equipment: ['Large pot', 'Strainer', 'tongs'],
         isSeeded: true,
@@ -22,6 +24,8 @@ async function seed() {
         cuisine: ['Chinese'],
         ingredients: ['Chicken breast or thigh', "soy sauce", "veg", 'Ginger', 'Garlic', "rice"],
         skill: 'intermediate',
+        cookingTime: 20,
+        dietaryPreferences: ["gluten-free", "keto-friendly"],
         steps: ['Slice chicken and vetetables', 'Heat wok over high heat', 'Stir fry chicken until browned', 'add rice', 'Add vegetables and aromatics', 'Add soy sauce and cook until reduced by half'],
         equipment: ['Wok', 'Cutting board', 'Chef knif'],
         isSeeded: true,
@@ -32,6 +36,8 @@ async function seed() {
         cuisine: 'Mexican',
         ingredients: ['Ground beef', 'Cumin', 'Chili powder', 'Paprika', 'Garlic powder', 'Salt(to taste)', 'Tortillas', 'Lettuce', 'Water(as needed)'],
         skill: 'beginner',
+        cookingTime: 25,
+        dietaryPreferences: [],
         steps: ['Brown ground beef in a skillet', 'Add spices and water', 'Simmer until thickened', 'Warm tortillas', 'Assemble tacos'],
         equipment: ['Skillet', 'Spoon'],
         isSeeded: true,
@@ -42,6 +48,8 @@ async function seed() {
         cuisine: "Italian",
         ingredients: ["shrimp", "butter", "garlic", "lemon", "parsley"],
         skill: "intermediate",
+        cookingTime: 15,
+        dietaryPreferences: ["gluten-free", "paleo"],
         steps: [
           "Melt butter in pan",
           "Add garlic and sauté",
@@ -58,6 +66,8 @@ async function seed() {
         cuisine: "Indian",
         ingredients: ["mixed vegetables", "coconut milk", "curry paste", "onion", "garlic"],
         skill: "intermediate",
+        cookingTime: 30,
+        dietaryPreferences: ["vegan", "vegetarian", "gluten-free"],
         steps: [
           "Sauté onions and garlic",
           "Add curry paste and cook until fragrant",
@@ -74,6 +84,8 @@ async function seed() {
         cuisine: "French",
         ingredients: ["eggs", "butter", "salt", "pepper", "cheese"],
         skill: "beginner",
+        cookingTime: 10,
+        dietaryPreferences: ["gluten-free", "keto-friendly"],
         steps: [
           "Whisk eggs with salt and pepper",
           "Melt butter in pan",
@@ -90,6 +102,8 @@ async function seed() {
         cuisine: "Japanese",
         ingredients: ["rice", "soy sauce", "cucumber", "avocado", "nori"],
         skill: "beginner",
+        cookingTime: 20,
+        dietaryPreferences: ["vegan", "vegetarian", "dairy-free"],
         steps: [
           "Cook rice",
           "Slice vegetables",
@@ -105,6 +119,8 @@ async function seed() {
         cuisine: "Korean",
         ingredients: ["beef", "soy sauce", "sugar", "garlic", "sesame oil"],
         skill: "advanced",
+        cookingTime: 35,
+        dietaryPreferences: ["gluten-free"],
         steps: [
           "Slice beef thinly",
           "Marinate in bulgogi sauce",
@@ -120,6 +136,8 @@ async function seed() {
         cuisine: "Greek",
         ingredients: ["tomatoes", "cucumber", "feta", "olive oil", "olives"],
         skill: "beginner",
+        cookingTime: 10,
+        dietaryPreferences: ["vegetarian", "gluten-free"],
         steps: [
           "Chop vegetables",
           "Mix in bowl",
@@ -135,6 +153,8 @@ async function seed() {
         cuisine: "American",
         ingredients: ["chicken thighs", "BBQ sauce", "salt", "pepper"],
         skill: "intermediate",
+        cookingTime: 40,
+        dietaryPreferences: ["gluten-free"],
         steps: [
           "Season chicken",
           "Grill over medium heat",
@@ -150,6 +170,8 @@ async function seed() {
         cuisine: "Thai",
         ingredients: ["rice noodles", "egg", "bean sprouts", "peanuts", "tamarind sauce"],
         skill: "advanced",
+        cookingTime: 25,
+        dietaryPreferences: ["dairy-free"],
         steps: [
           "Soak rice noodles",
           "Scramble eggs in wok",
@@ -165,6 +187,8 @@ async function seed() {
         cuisine: "Middle Eastern",
         ingredients: ["falafel", "pita", "lettuce", "tomato", "tahini"],
         skill: "beginner",
+        cookingTime: 20,
+        dietaryPreferences: ["vegan", "vegetarian", "dairy-free"],
         steps: [
           "Warm pita",
           "Cook falafel",
@@ -180,6 +204,8 @@ async function seed() {
         cuisine: "Japanese",
         ingredients: ["salmon", "soy sauce", "mirin", "sugar"],
         skill: "intermediate",
+        cookingTime: 20,
+        dietaryPreferences: ["gluten-free", "dairy-free"],
         steps: [
           "Mix teriyaki sauce",
           "Pan-sear salmon",
@@ -195,6 +221,8 @@ async function seed() {
         cuisine: "Middle Eastern",
         ingredients: ["eggs", "tomatoes", "onion", "garlic", "paprika"],
         skill: "intermediate",
+        cookingTime: 25,
+        dietaryPreferences: ["vegetarian", "gluten-free"],
         steps: [
           "Sauté onions and garlic",
           "Add tomatoes and spices",
@@ -211,6 +239,8 @@ async function seed() {
         cuisine: "Japanese",
         ingredients: ["ramen noodles", "broth", "egg", "scallions", "soy sauce"],
         skill: "beginner",
+        cookingTime: 15,
+        dietaryPreferences: ["dairy-free"],
         steps: [
           "Boil noodles",
           "Heat broth",
