@@ -6,6 +6,7 @@
     "build": "tsc",
     "ensure-indexes": "npm run build && node dist/scripts/ensureIndexes.js",
     "seed": "npm run build && node dist/scripts/seedRecipes.js",
+    "seed:spoonacular": "npm run build && node dist/scripts/seedSpoonacular.js",
     "test-fetch": "npm run build && node dist/scripts/testFetch.js",
     "gen-token": "node scripts/generateTestToken.js"
   },
@@ -13,7 +14,8 @@
     "aws": "^0.0.3-2",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.3",
-    "mongodb": "^7.0.0"
+    "mongodb": "^7.0.0",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",

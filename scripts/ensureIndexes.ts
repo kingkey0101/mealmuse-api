@@ -19,6 +19,10 @@ async function ensure() {
   await db.collection("recipes").createIndex({ skill: 1, cookingTime: 1 });
   await db.collection("recipes").createIndex({ dietaryPreferences: 1, cookingTime: 1 });
 
+  // Spoonacular-specific indexes
+  await db.collection("recipes").createIndex({ source: 1, spoonacularId: 1 }, { unique: false });
+  await db.collection("recipes").createIndex({ cachedAt: -1 });
+
   // Favorites indexes
   await db.collection("user_favorites").createIndex({ userId: 1, recipeId: 1 }, { unique: true });
   await db.collection("user_favorites").createIndex({ userId: 1 });

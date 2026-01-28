@@ -1,6 +1,15 @@
 import { getDb } from "../utils/mongo";
 import { ObjectId } from "mongodb";
 
+interface RecipeFilterOptions {
+  skill?: string;
+  dietaryPreferences?: string;
+  cookingTime?: number;
+  cuisine?: string;
+  limit?: number;
+  offset?: number;
+}
+
 //Read - get all recipes
 export async function listRecipes(params: string) {
     const db = await getDb();
@@ -12,6 +21,47 @@ export async function listRecipes(params: string) {
     }).toArray();
 }
 
+//Read - search and filter recipes
+export async function searchRecipes(userId: string, filters: RecipeFilterOptions = {}) {
+    const db = await getDb();
+    const query: any = {
+        $or: [
+            { isSeeded: true },
+            { userId },
+            { source: 'spoonacular' }
+        ]
+    };
+
+    if (filters.skill) {
+        query.skill = filters.skill.toLowerCase();
+    }
+
+    if (filters.dietaryPreferences) {
+        query.dietaryPreferences = filters.dietaryPreferences;
+    }
+
+    if (filters.cookingTime) {
+        query.cookingTime = { $lte: filters.cookingTime };
+    }
+
+    if (filters.cuisine) {
+        query.cuisine = { $elemMatch: { $eq: filters.cuisine } };
+    }
+
+    const limit = Math.min(filters.limit || 50, 200);
+    const offset = filters.offset || 0;
+
+    const total = await db.collection('recipes').countDocuments(query);
+    const recipes = await db.collection('recipes')
+        .find(query)
+        .limit(limit)
+        .skip(offset)
+        .sort({ cachedAt: -1, created_at: -1 })
+        .toArray();
+
+    return { recipes, total, limit, offset };
+}
+
 //Read - get one recipe by ID
 export async function getRecipe(id: string) {
     const db = await getDb();
@@ -20,13 +70,13 @@ export async function getRecipe(id: string) {
 
 //Create - add a new recipe
 export async function createRecipe(data: any) {
-    const db = getDb();
-    const result = (await db).collection('recipes').insertOne({
+    const db = await getDb();
+    const result = await db.collection('recipes').insertOne({
         ...data,
         userId: String(data.userId),
         created_at: new Date()
     })
-    return (await result).insertedId
+    return result.insertedId
 }
 
 //Update - update a recipe by ID
@@ -41,11 +91,11 @@ export async function updateRecipe(id: string, updates: any) {
 
 //Delete - delete a recipe by ID
 export async function deleteRecipe(id: string) {
-    const db = getDb();
-    const recipe = await (await db).collection('recipes').findOne({ _id: new ObjectId(id) });
+    const db = await getDb();
+    const recipe = await db.collection('recipes').findOne({ _id: new ObjectId(id) });
 
     if (!recipe || recipe.isSeeded) {
-        throw new Error('Cannot Delete MeanMuse recipe');
+        throw new Error('Cannot delete MealMuse recipe');
     }
-    return (await db).collection('recipes').deleteOne({ _id: new ObjectId(id) })
+    return await db.collection('recipes').deleteOne({ _id: new ObjectId(id) })
 }
