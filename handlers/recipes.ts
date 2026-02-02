@@ -99,3 +99,16 @@ export async function deleteRecipe(id: string) {
     }
     return await db.collection('recipes').deleteOne({ _id: new ObjectId(id) })
 }
+
+//Create - add a recipe generated from AI
+export async function generateRecipeFromAI(data: any, userId: string) {
+    const db = await getDb();
+    const result = await db.collection('recipes').insertOne({
+        ...data,
+        userId: String(userId),
+        source: 'ai_generated',
+        created_at: new Date(),
+        cachedAt: new Date(),
+    });
+    return result.insertedId;
+}

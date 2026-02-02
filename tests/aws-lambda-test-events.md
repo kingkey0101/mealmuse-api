@@ -385,6 +385,70 @@ Copy and paste these test events into the AWS Lambda console to test each functi
 
 ---
 
+## 12. GENERATE RECIPE (AI)
+
+**Function:** `generateRecipe`
+
+**Test Event Name:** `generateRecipe_test`
+
+```json
+{
+  "resource": "/recipes/generate",
+  "path": "/recipes/generate",
+  "httpMethod": "POST",
+  "headers": {
+    "Authorization": "Bearer YOUR_JWT_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "queryStringParameters": {},
+  "body": "{\"prompt\":\"Generate a quick Italian pasta recipe for beginners with vegetarian preferences\"}",
+  "isBase64Encoded": false
+}
+```
+
+**Expected Response:**
+```json
+{
+  "statusCode": 201,
+  "body": "{\"recipe\":{\"title\":\"...\",\"cuisine\":[\"Italian\"],\"skill\":\"beginner\",\"dietaryPreferences\":[\"vegetarian\"],\"cookingTime\":20,\"ingredients\":[...],\"steps\":[...]},\"recipeId\":\"...\",\"message\":\"Recipe generated and saved successfully\"}"
+}
+```
+
+**Save the `recipeId` for testing**
+
+---
+
+## 13. CHAT WITH CHEF (AI)
+
+**Function:** `chatWithChef`
+
+**Test Event Name:** `chatWithChef_test`
+
+```json
+{
+  "resource": "/chat",
+  "path": "/chat",
+  "httpMethod": "POST",
+  "headers": {
+    "Authorization": "Bearer YOUR_JWT_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "queryStringParameters": {},
+  "body": "{\"conversationHistory\":[{\"role\":\"user\",\"content\":\"How do I make vegan pasta carbonara without eggs?\"},{\"role\":\"assistant\",\"content\":\"You can use cashew cream or nutritional yeast...\"},{\"role\":\"user\",\"content\":\"What about using tofu instead?\"}],\"topic\":\"ingredient_substitution\"}",
+  "isBase64Encoded": false
+}
+```
+
+**Expected Response:**
+```json
+{
+  "statusCode": 200,
+  "body": "{\"response\":\"Tofu is a great option! You can crumble silken tofu...\",\"interactionId\":\"...\",\"topic\":\"ingredient_substitution\",\"keywords\":[\"tofu\",\"pasta\",\"vegan\",\"eggs\"],\"message\":\"Chef response generated and saved successfully\"}"
+}
+```
+
+---
+
 ## Testing Checklist
 
 After uploading the zipped package to AWS Lambda, test in this order:
@@ -399,9 +463,11 @@ After uploading the zipped package to AWS Lambda, test in this order:
 - [ ] 8. Run `addFavorite_test` with any recipe ID
 - [ ] 9. Run `listFavorites_test` - See favorited recipes
 - [ ] 10. Run `removeFavorite_test` with that recipe ID
-- [ ] 11. Run `deleteRecipe_test` with the NEW_RECIPE_ID (cleanup)
-- [ ] 12. Run `auth_error_test` - Verify auth fails
-- [ ] 13. Run `missing_auth_test` - Verify missing auth fails
+- [ ] 11. Run `generateRecipe_test` - Generate AI recipe (NEW)
+- [ ] 12. Run `chatWithChef_test` - AI chef chat (NEW)
+- [ ] 13. Run `deleteRecipe_test` with the NEW_RECIPE_ID (cleanup)
+- [ ] 14. Run `auth_error_test` - Verify auth fails
+- [ ] 15. Run `missing_auth_test` - Verify missing auth fails
 
 ## Environment Variables Required in Lambda
 
@@ -412,6 +478,10 @@ MM_MONGODB_URI=mongodb+srv://...
 MM_MONGODB_DB=mealmuse_db
 NEXTAUTH_SECRET=1283b1277854d83b12e724f91f8ca5548db980327dbb63fad8ff56f72479ec29
 SPOONACULAR_API_KEY=65dbb356eea547508185ee2d59b7c3b5
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama-3.1-8b-instant
+MM_STRIPE_SECRET=sk_test_your_stripe_key_here
+MM_HF_API_KEY=your_huggingface_key_here
 ```
 
 ## Troubleshooting

@@ -28,6 +28,18 @@ async function ensure() {
   await db.collection("user_favorites").createIndex({ userId: 1 });
   await db.collection("user_favorites").createIndex({ recipeId: 1 });
 
+  // Users collection indexes
+  await db.collection("users").createIndex({ userId: 1 }, { unique: true, sparse: true });
+  await db.collection("users").createIndex({ email: 1 }, { unique: true, sparse: true });
+  await db.collection("users").createIndex({ tier: 1 });
+  await db.collection("users").createIndex({ 'subscription.status': 1 });
+
+  // AI Interactions indexes
+  await db.collection("ai_interactions").createIndex({ userId: 1 });
+  await db.collection("ai_interactions").createIndex({ userId: 1, created_at: -1 });
+  await db.collection("ai_interactions").createIndex({ type: 1, created_at: -1 });
+  await db.collection("ai_interactions").createIndex({ created_at: 1 }, { expireAfterSeconds: 7776000 }); // 90 days TTL
+
   console.log("Indexes ensured");
   process.exit(0);
 }

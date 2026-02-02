@@ -7,8 +7,13 @@
     "ensure-indexes": "npm run build && node dist/scripts/ensureIndexes.js",
     "seed": "npm run build && node dist/scripts/seedRecipes.js",
     "seed:spoonacular": "npm run build && node dist/scripts/seedSpoonacular.js",
+    "seed:daily": "npm run seed:spoonacular",
     "test-fetch": "npm run build && node dist/scripts/testFetch.js",
-    "gen-token": "node scripts/generateTestToken.js"
+    "gen-token": "node scripts/generateTestToken.js",
+    "clean": "Remove-Item -Recurse -Force lambda_build -ErrorAction SilentlyContinue; Remove-Item -Force lambda_all.zip -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue",
+    "prepare-deploy": "npm run build && New-Item -ItemType Directory -Force -Path lambda_build | Out-Null; xcopy dist lambda_build\\dist /E /I /Y; xcopy node_modules lambda_build\\node_modules /E /I /Y; copy package.json lambda_build\\; copy package-lock.json lambda_build\\; Remove-Item -Force lambda_build\\.env -ErrorAction SilentlyContinue",
+    "package": "Compress-Archive -Path lambda_build\\* -DestinationPath lambda_all.zip -Force",
+    "deploy": "npm run clean && npm run prepare-deploy && npm run package"
   },
   "dependencies": {
     "aws": "^0.0.3-2",

@@ -2,3 +2,5 @@
 .env
 node_modules
 dist
+lambda_build
+lambda_all.zip
