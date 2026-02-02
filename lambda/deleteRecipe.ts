@@ -103,7 +103,7 @@ import { getDb } from "../utils/mongo";
 import { ObjectId } from "mongodb";
 
 const CORS_HEADERS = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'https://mymealmuse.com',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,OPTIONS'
 };

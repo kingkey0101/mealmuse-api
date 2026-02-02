@@ -15,7 +15,7 @@ if (!decoded || typeof decoded === 'string' || !('userId' in decoded)) {
   return {
     statusCode: 401,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://mymealmuse.com",
       "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
     },
@@ -33,7 +33,7 @@ const userId = String((decoded as any).userId);
             return {
                 statusCode: 404,
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Origin": "https://mymealmuse.com",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
@@ -46,7 +46,7 @@ const userId = String((decoded as any).userId);
             return {
                 statusCode: 403,
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Origin": "https://mymealmuse.com",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
@@ -59,7 +59,7 @@ const userId = String((decoded as any).userId);
             return {
                 statusCode: 403,
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Origin": "https://mymealmuse.com",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
@@ -74,7 +74,7 @@ const userId = String((decoded as any).userId);
         return {
             statusCode: 200,
             headers: {
-                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "https://mymealmuse.com",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             },
@@ -87,7 +87,7 @@ const userId = String((decoded as any).userId);
         return {
             statusCode: 401,
             headers: {
-                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "https://mymealmuse.com",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             },

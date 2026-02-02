@@ -1,7 +1,81 @@
 # MealMuse API - Deployment & Build Notes
 
 **Date:** January 29, 2026  
-**Project:** MealMuse Recipe API Backend
+**Project:** MealMuse Recipe API Backend  
+**Last Updated:** February 1, 2026
+
+---
+
+## 🚀 Production Setup Guide
+
+### Environment Separation (CRITICAL)
+
+**Development vs Production:**
+- **Dev Database:** `mealmuse_db` (local testing, dev data)
+- **Prod Database:** `mealmuse_prod` (AWS Lambda, live users)
+- **Same Cluster:** Both use `mealmuse-cluster.bayqost.mongodb.net`
+- **Cost:** FREE - No additional charges
+
+### AWS Lambda Environment Variables
+
+**Production Configuration:**
+```bash
+MM_MONGODB_URI=mongodb+srv://mealmuse_user:<password>@mealmuse-cluster.bayqost.mongodb.net/
+MM_MONGODB_DB=mealmuse_prod              # 👈 Key difference from dev
+NEXTAUTH_SECRET=<your_jwt_secret>
+GROQ_API_KEY=<your_groq_api_key>
+GROQ_MODEL=llama-3.1-8b-instant
+SPOONACULAR_API_KEY=<your_spoonacular_key>
+NODE_ENV=production                      # Optional but recommended
+```
+
+**Local Development (.env):**
+```bash
+MM_MONGODB_URI=mongodb+srv://mealmuse_user:<password>@mealmuse-cluster.bayqost.mongodb.net/
+MM_MONGODB_DB=mealmuse_db                # 👈 Dev database
+NEXTAUTH_SECRET=<your_jwt_secret>
+GROQ_API_KEY=<your_groq_api_key>
+```
+
+### Production Database Initialization
+
+**Step 1: Update Lambda Environment Variable**
+1. Open AWS Lambda Console
+2. Go to Configuration → Environment variables
+3. Add/Update: `MM_MONGODB_DB=mealmuse_prod`
+
+**Step 2: Initialize Production Database**
+```bash
+# Set local env to target prod database temporarily
+$env:MM_MONGODB_DB="mealmuse_prod"
+
+# Run initialization script
+npm run init-prod-db
+
+# Restore to dev database
+$env:MM_MONGODB_DB="mealmuse_db"
+```
+
+This creates:
+- All required indexes (users, recipes, favorites, ai_interactions)
+- 90-day TTL on AI interactions
+- Unique constraints on userId and email
+
+**Step 3: (Optional) Seed Production Recipes**
+```bash
+$env:MM_MONGODB_DB="mealmuse_prod"
+npm run seed-recipes
+$env:MM_MONGODB_DB="mealmuse_db"
+```
+
+### CORS Configuration
+
+**Production:** All Lambda functions now restrict CORS to:
+```typescript
+'Access-Control-Allow-Origin': 'https://mymealmuse.com'
+```
+
+This prevents unauthorized domains from accessing your API. API Gateway must also be configured to allow `https://mymealmuse.com` origin.
 
 ---
 

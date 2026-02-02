@@ -1,5 +1,5 @@
 // lambda/chatWithChef.ts
-import { verifyJwt } from '../utils/verifyJwt';
+import { verifyJwtFromHeader } from '../utils/verifyJwt';
 import { generateChefChatResponse } from '../utils/groq';
 import { getDb } from '../utils/mongo';
 import { checkLimit, incrementUsage } from '../handlers/users';
@@ -16,35 +16,33 @@ interface ChatRequest {
 
 interface ChatResponse {
   statusCode: number;
+  headers?: {
+    [key: string]: string;
+  };
   body: string;
 }
 
 export const handler = async (event: any): Promise<ChatResponse> => {
   try {
     // Verify JWT
-    const token = event.headers?.Authorization?.replace('Bearer ', '');
-    if (!token) {
+    const auth = event.headers?.authorization ||
+      event.headers?.Authorization ||
+      event.headers?.AUTHORIZATION;
+    
+    const decoded = verifyJwtFromHeader(auth);
+    if (!decoded || typeof decoded === 'string' || !('userId' in decoded)) {
       return {
         statusCode: 401,
-        body: JSON.stringify({ error: 'Unauthorized' }),
-      };
-    }
-
-    const decoded = verifyJwt(token);
-    if (!decoded) {
-      return {
-        statusCode: 401,
+        headers: {
+          'Access-Control-Allow-Origin': 'https://mymealmuse.com',
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        },
         body: JSON.stringify({ error: 'Unauthorized: Invalid token' }),
       };
     }
 
-    const userId = decoded.sub || decoded.userId;
-    if (!userId) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ error: 'Unauthorized: No user ID' }),
-      };
-    }
+    const userId = String((decoded as any).userId);
 
     // Parse request
     const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
@@ -53,6 +51,11 @@ export const handler = async (event: any): Promise<ChatResponse> => {
     if (!conversationHistory || !Array.isArray(conversationHistory) || conversationHistory.length === 0) {
       return {
         statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': 'https://mymealmuse.com',
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        },
         body: JSON.stringify({ error: 'Missing or invalid conversationHistory' }),
       };
     }
@@ -62,6 +65,11 @@ export const handler = async (event: any): Promise<ChatResponse> => {
     if (!canChat) {
       return {
         statusCode: 403,
+        headers: {
+          'Access-Control-Allow-Origin': 'https://mymealmuse.com',
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        },
         body: JSON.stringify({
           error: 'Daily AI chat limit reached. Upgrade to premium for unlimited chats.',
         }),
@@ -74,6 +82,11 @@ export const handler = async (event: any): Promise<ChatResponse> => {
     if (!aiResponse) {
       return {
         statusCode: 500,
+        headers: {
+          'Access-Control-Allow-Origin': 'https://mymealmuse.com',
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        },
         body: JSON.stringify({ error: 'Failed to generate chef response' }),
       };
     }
@@ -111,6 +124,11 @@ export const handler = async (event: any): Promise<ChatResponse> => {
 
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': 'https://mymealmuse.com',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+      },
       body: JSON.stringify({
         response: aiResponse,
         interactionId: result.insertedId,
@@ -123,6 +141,11 @@ export const handler = async (event: any): Promise<ChatResponse> => {
     console.error('Error in chatWithChef handler:', err);
     return {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': 'https://mymealmuse.com',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+      },
       body: JSON.stringify({ error: 'Internal server error' }),
     };
   }

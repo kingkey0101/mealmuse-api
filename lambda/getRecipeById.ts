@@ -9,7 +9,7 @@ export const handler = async (event: any) => {
             return {
                 statusCode: 400,
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Origin": "https://mymealmuse.com",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
@@ -23,7 +23,7 @@ export const handler = async (event: any) => {
             return {
                 statusCode: 404,
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Origin": "https://mymealmuse.com",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
                 },
@@ -34,7 +34,7 @@ export const handler = async (event: any) => {
         return {
             statusCode: 200,
             headers: {
-                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "https://mymealmuse.com",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             },
@@ -46,7 +46,7 @@ export const handler = async (event: any) => {
         return {
             statusCode: 500,
             headers: {
-                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "https://mymealmuse.com",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             },
